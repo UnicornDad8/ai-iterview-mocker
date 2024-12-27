@@ -18,10 +18,8 @@ import { MockInterview } from "@/utils/schema";
 import { v4 as uuidv4 } from 'uuid';
 import { db } from "@/utils/db";
 import { useUser } from "@clerk/nextjs";
-import moment from "moment";
 import { useRouter } from "next/navigation";
-
-
+import moment from "moment";
 
 const AddNewInterview = () => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -42,12 +40,47 @@ const AddNewInterview = () => {
     "question": "Your question here",
     "answer": "Your answer here"
   }`;
-  const result = await chatSession.sendMessage(inputPrompt);
-  const MockJsonResponse = (result.response.text()).replace("```json", "").replace("```", ""); 
-  console.log(JSON.parse(MockJsonResponse));
-  setLoading(false);
-  };
 
+    try {
+      const result = await chatSession.sendMessage(inputPrompt);
+      const responseText = await result.response.text();
+      // console.log("🚀 ~ file: AddNewInterview.jsx:41 ~ onSubmit ~ responseText:", responseText)
+      const jsonMatch = responseText.match(/\[.*?\]/s);
+      if (!jsonMatch) {
+        throw new Error("No valid JSON array found in the response");
+      }
+  
+      const jsonResponsePart = jsonMatch[0];
+      // console.log("🚀 ~ file: AddNewInterview.jsx:43 ~ onSubmit ~ jsonResponsePart:", jsonResponsePart);
+  
+      if (jsonResponsePart) {
+        const mockResponse = JSON.parse(jsonResponsePart.trim());
+        // console.log("🚀 ~ file: AddNewInterview.jsx:45 ~ onSubmit ~ mockResponse:", mockResponse)
+        setJsonResponse(mockResponse);
+        const jsonString = JSON.stringify(mockResponse);
+        const res = await db.insert(MockInterview)
+          .values({
+            mockId: uuidv4(),
+            jsonMockResp: jsonString,
+            jobPosition: jobPosition,
+            jobDesc: jobDescription,
+            jobExperience: jobExperience,
+            createdBy: user?.primaryEmailAddress?.emailAddress,
+            createdAt: moment().format('DD-MM-YYYY'),
+          }).returning({ mockId: MockInterview.mockId });
+          setLoading(false);
+          setOpenDialog(false);
+          console.log(res[0]?.mockId);
+          router.push(`dashboard/interview/${res[0]?.mockId}`);
+      } else {
+        console.error("Error: Unable to extract JSON response");
+      }
+    } catch (error) {
+      console.error("Error fetching interview questions:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
