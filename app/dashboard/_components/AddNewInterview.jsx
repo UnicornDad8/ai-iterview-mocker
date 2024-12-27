@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 
 
@@ -26,17 +27,27 @@ const AddNewInterview = () => {
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">Tell us more about your job interview</DialogTitle>
+            <form>
             <div>
               <h2>Add details about your job position or role, job description and years of experience</h2>
-              <div className="my-2 mt-7">
+              <div className="my-3 mt-7">
                 <label>Job Role/Job Position</label>
-                <Input placeholder="Ex. Full-Stack Developer" />
+                <Input placeholder="Ex. Full-Stack Developer" required />
+              </div>
+              <div className="my-3">
+                <label>Job Description/Tech Stack</label>
+                <Textarea placeholder="Ex. React, Angular, NodeJs, MySql, etc" required />
+              </div>
+              <div className="my-3">
+                <label>Years of experience</label>
+                <Input placeholder="Ex. 5" type="number" max="50" required />
               </div>
             </div>
             <div className="flex justify-end gap-5 mt-10">
-                <Button className="outline-none" variant="ghost" onClick={() => setOpenDialog(false)}>Cancel</Button>
-                <Button>Start Interview</Button>
+                <Button type="button" variant="ghost" onClick={() => setOpenDialog(false)}>Cancel</Button>
+                <Button type="submit">Start Interview</Button>
             </div>
+            </form>
           </DialogHeader>
         </DialogContent>
       </Dialog>
