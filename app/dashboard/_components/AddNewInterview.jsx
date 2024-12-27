@@ -10,6 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 
 
@@ -22,13 +23,16 @@ const AddNewInterview = () => {
         <h2 className="text-lg font-semibold text-center">+ Add New</h2>
       </div>
       <Dialog className="focus:outline-none ring-0 focus:ring-0" open={openDialog} onOpenChange={() => setOpenDialog(false)}>
-        <DialogContent>
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
-            <DialogDescription>
-              This action cannot be undone. This will permanently delete your account
-              and remove your data from our servers. 
-            </DialogDescription>
+            <DialogTitle className="text-2xl font-bold">Tell us more about your job interview</DialogTitle>
+            <div>
+              <h2>Add details about your job position or role, job description and years of experience</h2>
+              <div className="my-2 mt-7">
+                <label>Job Role/Job Position</label>
+                <Input placeholder="Ex. Full-Stack Developer" />
+              </div>
+            </div>
             <div className="flex justify-end gap-5 mt-10">
                 <Button className="outline-none" variant="ghost" onClick={() => setOpenDialog(false)}>Cancel</Button>
                 <Button>Start Interview</Button>
