@@ -12,6 +12,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { chatSession } from "@/utils/GeminiAIModal";
+import { LoaderCircle } from "lucide-react";
+import { MockInterview } from "@/utils/schema";
+import { v4 as uuidv4 } from 'uuid';
+import { db } from "@/utils/db";
+import { useUser } from "@clerk/nextjs";
+import moment from "moment";
+import { useRouter } from "next/navigation";
 
 
 
@@ -20,11 +28,26 @@ const AddNewInterview = () => {
   const [jobPosition, setJobPosition] = useState();
   const [jobDescription, setJobDescription] = useState();
   const [jobExperience, setJobExperience] = useState();
+  const [loading, setLoading] = useState(false);
+  const [jsonResponse, setJsonResponse] = useState([]);
+  const { user } = useUser();
+  const router = useRouter();
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(jobPosition, jobDescription, jobExperience);
+    setLoading(true);
+
+    const inputPrompt = `Job position: ${jobPosition}, Job Description: ${jobDescription}, Years of Experience: ${jobExperience}, Depends on Job Position, Job Description and Years of Experience give us ${process.env.NEXT_PUBLIC_INTERVIEW_QUESTION_COUNT} Interview question along with Answer in JSON format, Give us question and Answer field on JSON,Each question and answer should be in the format:
+  {
+    "question": "Your question here",
+    "answer": "Your answer here"
+  }`;
+  const result = await chatSession.sendMessage(inputPrompt);
+  const MockJsonResponse = (result.response.text()).replace("```json", "").replace("```", ""); 
+  console.log(JSON.parse(MockJsonResponse));
+  setLoading(false);
   };
+
 
   return (
     <div>
@@ -67,7 +90,15 @@ const AddNewInterview = () => {
             </div>
             <div className="flex justify-end gap-5 mt-10">
                 <Button type="button" variant="ghost" onClick={() => setOpenDialog(false)}>Cancel</Button>
-                <Button type="submit">Start Interview</Button>
+                <Button type="submit" disabled={loading}>
+                  {loading ? (
+                    <>
+                      <LoaderCircle className="animate-spin" /> Generating from AI
+                    </>
+                  ) : (
+                    'Start Interview'
+                  )}
+                </Button>
             </div>
             </form>
           </DialogHeader>

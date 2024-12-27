@@ -14,7 +14,7 @@ const Header = () => {
  
   return (
     <div className="flex items-center justify-between p-4 shadow-sm bg-secondary">
-      <Image src={"/logo.svg"} width={160} height={100} alt="logo" />
+      <Image src={"/logo.svg"} alt="logo" width={160} height={100} />
       <ul className="hidden gap-6 cursor-pointer md:flex">
         <li className={`transition-all hover:text-primary hover:font-bold ${path === "/dashboard" && "text-primary font-bold"}`}>Dashboard</li>
         <li className={`transition-all hover:text-primary hover:font-bold ${path === "/questions" && "text-primary font-bold"}`}>Questions</li>
