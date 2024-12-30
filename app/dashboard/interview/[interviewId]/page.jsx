@@ -27,7 +27,16 @@ const Interview = ({params}) => {
 
   return (
     <div className="flex flex-col items-center justify-center my-10">
-      <h2 className="text-2xl font-bold">Let's get started</h2>
+      <h2 className="mb-10 text-2xl font-bold">Let's get started</h2>
+      <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
+      <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 p-5 border rounded-lg">
+        <h2 className="text-lg"><strong>Job Role/Job Position:</strong> {interviewData?.jobPosition}</h2>
+        <h2 className="text-lg"><strong>Job Description/Tech Stack:</strong> {interviewData?.jobDesc}</h2>
+        <h2 className="text-lg"><strong>Years of Experience:</strong> {interviewData?.jobExperience}</h2>
+        </div>
+      </div>
+
       <div className="">
         {webcamEnabled ? 
           <Webcam 
@@ -40,11 +49,13 @@ const Interview = ({params}) => {
             }}
           /> :
           <div className="flex flex-col items-center">
-            <WebcamIcon className="w-full p-20 border rounded-lg my-7 h-72 bg-secondary" />
-            <Button onClick={() => setWebcamEnabled(true)}>Enable webcam and microphone</Button>
+            <WebcamIcon className="w-full p-20 border rounded-lg h-72 bg-secondary" />
+            <Button className="my-3" onClick={() => setWebcamEnabled(true)}>Enable webcam and microphone</Button>
           </div>
           }
       </div>
+      </div>
+      
     </div>
   )
 }
