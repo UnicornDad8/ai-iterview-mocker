@@ -4,10 +4,12 @@ import { db } from '@/utils/db';
 import { MockInterview } from '@/utils/schema';
 import { eq } from 'drizzle-orm';
 import React, { useEffect, useState } from 'react' 
+import QuestionsSection from './_components/QuestionsSection';
 
 const StartInterview = ({params}) => {
   const [interviewData, setInterviewData] = useState();
   const [mockInterviewQuestion, setMockInterviewQuestion] = useState();
+  const [activeQuestionIndex, setActiveQuestionIndex] = useState(0);
 
   useEffect(() => {
     getInterviewDetails();
@@ -26,7 +28,17 @@ const StartInterview = ({params}) => {
   };
 
   return (
-    <div>Start Interview...</div>
+    <div className="my-10">
+      <div className="grid grid-cols-1 md:grid-cols-2">
+        {/* Questions */}
+        <QuestionsSection 
+          mockInterviewQuestion={mockInterviewQuestion} 
+          activeQuestionIndex={activeQuestionIndex}  
+        />
+
+        {/* Video / Audio Recording */}
+      </div>
+    </div>
   )
 }
 
