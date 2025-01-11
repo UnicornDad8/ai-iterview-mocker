@@ -7,6 +7,7 @@ import { eq } from 'drizzle-orm';
 import Webcam from "react-webcam";
 import { Lightbulb, WebcamIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 const Interview = ({params}) => {
   const [interviewData, setInterviewData] = useState();
@@ -37,7 +38,19 @@ const Interview = ({params}) => {
         </div>
         <div className="p-5 bg-yellow-100 border border-yellow-300 rounded-lg">
           <h2 className="flex items-center gap-2 text-yellow-500"><Lightbulb /> <strong>Information</strong></h2>
-          <h2 className="mt-3 text-yellow-700">{process.env.NEXT_PUBLIC_INFORMATION}</h2>
+          <h2 className="mt-3 text-sm text-yellow-700">
+          Enable video webcam and microphone to start your AI Generated Mock 
+          Interview, it has 5 questions which you can answer and at the last 
+          you will get the report based on your answers. 
+          <br></br>
+          <br></br>
+          <strong className="mr-1 text-yellow-500">NOTE:</strong>
+          <span className="text-sm text-yellow-500">
+          we never 
+          record your video, you can disable webcam access at any time you 
+          want.
+          </span>
+          </h2>
         </div>
       </div>
 
@@ -60,7 +73,9 @@ const Interview = ({params}) => {
       </div>
       </div>
       <div className="flex items-end justify-end mt-5">
-        <Button>Start Interview</Button>
+        <Link href={`${params.interviewId}/start`}>
+          <Button>Start Interview</Button>
+        </Link>
       </div>
     </div>
   )
