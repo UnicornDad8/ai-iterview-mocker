@@ -7,8 +7,9 @@ import Image from 'next/image';
 import Webcam from 'react-webcam';
 import { Mic } from 'lucide-react';
 import { toast } from "sonner"
+import { chatSession } from '@/utils/GeminiAIModal';
 
-const RecordAnswerSection = () => {
+const RecordAnswerSection = ({ mockInterviewQuestion, activeQuestionIndex}) => {
   const [userAnswer, setUserAnswer] = useState("");
 
   const {
@@ -29,7 +30,7 @@ const RecordAnswerSection = () => {
     ));
   }, [results]);
 
-  const saveUserAnswer = () => {
+  const saveUserAnswer = async () => {
     if(isRecording) {
       stopSpeechToText();
 
@@ -37,6 +38,15 @@ const RecordAnswerSection = () => {
         toast("Error while saving your answer, please record again");
         return;
       }
+
+      const feedbackPrompt = 
+        "Question: " + mockInterviewQuestion[activeQuestionIndex]?.question 
+        + "\n" + "User Answer: " + userAnswer + ", depends on question and user answer for given interview question, please give us rating for our answer and feedback as area of improvement if any, in just 3 to 5 lines in JSON format with rating field and feedback field";
+      
+      const result = await chatSession.sendMessage(feedbackPrompt);
+      const mockJsonResp = (result.response.text()).replace("```json", "").replace("```", "");
+      console.log(mockJsonResp);
+      const jsonFeedbackResp = JSON.parse(mockJsonResp);  
     } else {
       startSpeechToText();
     }
