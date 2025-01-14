@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Webcam from 'react-webcam';
 import { Mic } from 'lucide-react';
+import { toast } from "sonner"
 
 const RecordAnswerSection = () => {
   const [userAnswer, setUserAnswer] = useState("");
@@ -28,6 +29,19 @@ const RecordAnswerSection = () => {
     ));
   }, [results]);
 
+  const saveUserAnswer = () => {
+    if(isRecording) {
+      stopSpeechToText();
+
+      if(userAnswer?.length < 10) {
+        toast("Error while saving your answer, please record again");
+        return;
+      }
+    } else {
+      startSpeechToText();
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center">
         <div className="flex flex-col items-center justify-center p-5 mt-10 rounded-lg bg-secondary">
@@ -44,7 +58,7 @@ const RecordAnswerSection = () => {
     <Button 
       variant="outline" 
       className="my-10"
-      onClick={isRecording ? stopSpeechToText : startSpeechToText}
+      onClick={saveUserAnswer}
       >{isRecording ? 
         <h2 className="flex items-center gap-2 text-red-600">
           <Mic /> Stop Recording
