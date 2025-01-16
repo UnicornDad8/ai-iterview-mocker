@@ -11,6 +11,7 @@ import { chatSession } from '@/utils/GeminiAIModal';
 import { db } from '@/utils/db';
 import { useUser } from '@clerk/nextjs';
 import moment from 'moment';
+import { UserAnswer } from '@/utils/schema';
 
 const RecordAnswerSection = ({ mockInterviewQuestion, activeQuestionIndex, interviewData }) => {
   const [userAnswer, setUserAnswer] = useState("");
@@ -24,6 +25,7 @@ const RecordAnswerSection = ({ mockInterviewQuestion, activeQuestionIndex, inter
     results,
     startSpeechToText,
     stopSpeechToText,
+    setResults
   } = useSpeechToText({
     continuous: true,
     useLegacyResults: false
@@ -37,11 +39,11 @@ const RecordAnswerSection = ({ mockInterviewQuestion, activeQuestionIndex, inter
 
   useEffect(() => {
     if(!isRecording && userAnswer.length > 10) {
-      updateUserAnswer();
+      UpdateUserAnswer();
     }
   }, [userAnswer])
 
-  const startStopRecording = () => {
+  const StartStopRecording = () => {
     if(isRecording) {
       stopSpeechToText();
 
@@ -55,37 +57,56 @@ const RecordAnswerSection = ({ mockInterviewQuestion, activeQuestionIndex, inter
     }
   };
 
-  const updateUserAnswer = async () => {
-    console.log(userAnswer);
-    /*
+  const UpdateUserAnswer = async () => {
+    console.log(userAnswer, "########");
     setLoading(true);
-    const feedbackPrompt = 
-        "Question: " + mockInterviewQuestion[activeQuestionIndex]?.question 
-        + "\n" + "User Answer: " + userAnswer + ", depends on question and user answer for given interview question, please give us rating for our answer and feedback as area of improvement if any, in just 3 to 5 lines in JSON format with rating field and feedback field";
-      
-      const result = await chatSession.sendMessage(feedbackPrompt);
-      const mockJsonResp = (result.response.text()).replace("```json", "").replace("```", "");
-      console.log(mockJsonResp);
-      const jsonFeedbackResp = JSON.parse(mockJsonResp);
-      const resp = await db.insert(userAnswer)
-        .values({
-          mockIdRef: interviewData?.mockId,
-          question: mockInterviewQuestion[activeQuestionIndex]?.question,
-          correctAns: mockInterviewQuestion[activeQuestionIndex]?.answer,
-          userAns: userAnswer,
-          feedback: jsonFeedbackResp?.feedback,
-          rating: jsonFeedbackResp?.rating,
-          userEmail: user?.primaryEmailAddress?.emailAddress,
-          createdAt: moment().format("DD-MM-YYYY"),
-        });
+    const feedbackPrompt =
+      "Question:" +
+      mockInterviewQuestion[activeQuestionIndex]?.question + "\n" +
+      "User Answer:" +
+      userAnswer +
+      ", Depending on question and user answer for the given interview question " +
+      " please give a rating for the answer and feedback as area of improvement if any" +
+      " in just 3 to 5 lines in JSON format with rating field and feedback field";
+    console.log(
+      "🚀 ~ file: RecordAnswerSection.jsx:38 ~ SaveUserAnswer ~ feedbackPrompt:",
+      feedbackPrompt
+    );
+    const result = await chatSession.sendMessage(feedbackPrompt);
+    console.log(
+      "🚀 ~ file: RecordAnswerSection.jsx:46 ~ SaveUserAnswer ~ result:",
+      result
+    );
+    const mockJsonResp = result.response
+      .text()
+      .replace("```json", "")
+      .replace("```", "");
 
-      if (resp) {
-        toast("User answer recorded successfully!");
-      }
+    console.log(
+      "🚀 ~ file: RecordAnswerSection.jsx:47 ~ SaveUserAnswer ~ mockJsonResp:",
+      mockJsonResp
+    );
+    const JsonfeedbackResp = JSON.parse(mockJsonResp);
+    const resp = await db.insert(UserAnswer).values({
+      mockIdRef: interviewData?.mockId,
+      question: mockInterviewQuestion[activeQuestionIndex]?.question,
+      correctAns: mockInterviewQuestion[activeQuestionIndex]?.answer,
+      userAns: userAnswer,
+      feedback: JsonfeedbackResp?.feedback,
+      rating: JsonfeedbackResp?.rating,
+      userEmail: user?.primaryEmailAddress?.emailAddress,
+      createdAt: moment().format("DD-MM-YYYY"),
+    });
+
+    if (resp) {
+      toast("User Answer recorded successfully");
       setUserAnswer("");
-      setLoading(false);
-      */
-  }
+      setResults([]);
+    }
+    setResults([]);
+    setLoading(false);
+  };
+
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -104,7 +125,7 @@ const RecordAnswerSection = ({ mockInterviewQuestion, activeQuestionIndex, inter
       disabled={loading} 
       variant="outline" 
       className="my-10"
-      onClick={startStopRecording}
+      onClick={StartStopRecording}
       >{isRecording ? 
         <h2 className="flex items-center gap-2 text-red-600">
           <Mic /> Stop Recording
