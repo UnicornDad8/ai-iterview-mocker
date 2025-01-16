@@ -6,6 +6,7 @@ import { eq } from 'drizzle-orm';
 import React, { useEffect, useState } from 'react' 
 import QuestionsSection from './_components/QuestionsSection';
 import RecordAnswerSection from './_components/RecordAnswerSection';
+import { Button } from '@/components/ui/button';
 
 const StartInterview = ({params}) => {
   const [interviewData, setInterviewData] = useState();
@@ -40,9 +41,11 @@ const StartInterview = ({params}) => {
         {/* Video / Audio Recording */}
         <RecordAnswerSection 
            mockInterviewQuestion={mockInterviewQuestion} 
-           activeQuestionIndex={activeQuestionIndex}  
+           activeQuestionIndex={activeQuestionIndex}
+           interviewData={interviewData}  
         />
       </div>
+     
     </div>
   )
 }

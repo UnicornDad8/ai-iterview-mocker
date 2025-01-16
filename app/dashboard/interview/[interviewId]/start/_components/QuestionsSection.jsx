@@ -26,7 +26,7 @@ const QuestionsSection = ({mockInterviewQuestion, activeQuestionIndex}) => {
     <h2 className="mt-10 text-md md:text-lg">{mockInterviewQuestion[activeQuestionIndex]?.question}</h2>
     <Volume2 className="mt-2 cursor-pointer text-primary" onClick={() => textToSpeach(mockInterviewQuestion[activeQuestionIndex]?.question)} />
    </div>
-    <div className="p-5 bg-blue-100 border rounded-lg border-primary">
+    <div className="p-5 mt-5 bg-blue-100 border rounded-lg border-primary">
       <h2 className="flex items-center gap-2 mb-3 text-primary"><Lightbulb /> <strong>Note:</strong></h2>
       <h2 className="text-sm text-blue-900">Click on record answer when you want to answer the question.</h2>
       <h2 className="text-sm text-blue-900">At the end of the interview we will give you the feedback along with the correct answer for each of the questions, so you can compare your answer with the correct answer.</h2>
