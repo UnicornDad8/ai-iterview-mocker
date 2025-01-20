@@ -4,7 +4,8 @@ import { db } from "@/utils/db";
 import { MockInterview } from "@/utils/schema";
 import { useUser } from "@clerk/nextjs";
 import { desc, eq } from "drizzle-orm";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import InterviewItemCard from "./InterviewItemCard";
 
 const InterviewList = () => {
   const { user } = useUser();
@@ -29,6 +30,11 @@ const InterviewList = () => {
   return (
     <div>
       <h2 className="text-xl font-medium">Previous Mock Interview</h2>
+      <div className="grid grid-cols-1 gap-5 my-3 md:grid-cols-2 lg:grid-cols-3">
+        {InterviewList&&InterviewList.map((interview,index)=>(
+            <InterviewItemCard interview={interview} key={index}/>
+        ))}
+      </div>
     </div>
   ); 
 };
