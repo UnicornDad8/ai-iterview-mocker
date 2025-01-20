@@ -4,9 +4,19 @@ import { db } from '@/utils/db'
 import { UserAnswer } from '@/utils/schema'
 import { eq } from 'drizzle-orm'
 import { useEffect, useState } from 'react'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
+import { ChevronsUpDown } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+
 
 const Feedback = ({ params }) => {
   const [feedbackList, setFeedbackList] = useState([]);
+  const router = useRouter();
   
   useEffect(() => {
     GetFeedback();
@@ -28,6 +38,26 @@ const Feedback = ({ params }) => {
       <h2 className="my-3 text-lg text-primary">Your overall interview rating: <strong>7/10</strong></h2>
     
       <h2 className="text-sm text-gray-500">Find below interview question with correct answer, your answer and feedback for improvement</h2>
+      <div>
+        {feedbackList && feedbackList.map((item, index) => (
+          <Collapsible key={index} className="mt-7">
+          <CollapsibleTrigger className="flex items-center justify-between w-full gap-10 p-2 my-2 text-left rounded-lg bg-secondary">
+            {item?.question}
+          <ChevronsUpDown className="w-5 h-5" />
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <div className="flex flex-col gap-2">
+              <h2 className="p-2 text-red-500 border rounded-lg"><strong>Rating:</strong> {item.rating}</h2>
+              <h2 className="p-2 text-sm text-red-900 bg-red-100 border rounded-lg"><strong>Your answer:</strong> {item.userAns}</h2>
+              <h2 className="p-2 text-sm text-green-900 bg-green-100 border rounded-lg"><strong>Correct answer example according to AI:</strong> {item.correctAns}</h2>
+              <h2 className="p-2 text-sm bg-blue-100 border rounded-lg text-primary"><strong>Feedback:</strong> {item.feedback}</h2>
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
+        
+        ))}
+      </div>
+      <Button onClick={() => router.replace("/dashboard")} className="mt-3">Go Home</Button>
     </div>
   )
 }
