@@ -110,16 +110,16 @@ const RecordAnswerSection = ({ mockInterviewQuestion, activeQuestionIndex, inter
 
   return (
     <div className="flex flex-col items-center justify-center">
-        <div className="flex flex-col items-center justify-center p-5 mt-10 rounded-lg bg-secondary">
-      <Image src={"/webcam.png"} alt="webcam" width={200} height={200} className="absolute" />
-      <Webcam 
-        mirrored={true}
-        style={{
-          height: 300,
-          width: "100%",
-          zIndex: 10,
-        }}
-      />
+        <div className="flex flex-col items-center justify-center w-full rounded-lg">
+          <div className="w-full p-5 mt-10">
+            <Image src={"/webcam.png"} alt="webcam" width={200} height={200} className="absolute" />
+          </div>
+          <div id="video-stream">
+          <Webcam 
+            mirrored={true}
+            className="-mt-20 rounded-lg"
+          />
+          </div>
     </div>
     <Button
       disabled={loading} 

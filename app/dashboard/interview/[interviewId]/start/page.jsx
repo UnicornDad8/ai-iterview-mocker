@@ -33,13 +33,10 @@ const StartInterview = ({params}) => {
   return (
     <div className="my-10">
       <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
-        {/* Questions */}
         <QuestionsSection 
           mockInterviewQuestion={mockInterviewQuestion} 
           activeQuestionIndex={activeQuestionIndex}  
         />
-
-        {/* Video / Audio Recording */}
         <RecordAnswerSection 
            mockInterviewQuestion={mockInterviewQuestion} 
            activeQuestionIndex={activeQuestionIndex}

@@ -56,15 +56,16 @@ const Interview = ({params}) => {
 
       <div className="">
         {webcamEnabled ? 
+         <div id="video-stream">
           <Webcam 
             onUserMedia={() => setWebcamEnabled(true)}
             onUserMediaError={() => setWebcamEnabled(false)}
             mirrored={true}
-            style = {{
-              height: 300,
-              width: 300,
-            }}
-          /> :
+            screenshotFormat="image/jpeg"
+            forceScreenshotSourceSize="true"
+            className="p-0 m-0 bg-black rounded-lg"
+          /> 
+         </div> :
           <div className="flex flex-col items-center">
             <WebcamIcon className="w-full p-20 border rounded-lg h-72 bg-secondary" />
             <Button variant="ghost" className="w-full my-3" onClick={() => setWebcamEnabled(true)}>Enable webcam and microphone</Button>
