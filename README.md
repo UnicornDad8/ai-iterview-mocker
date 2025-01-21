@@ -2,7 +2,7 @@
 AI Mock Interview App is a cutting-edge application built with Next.js designed to help users practice and prepare for technical interviews. Leveraging the power of the Gemini API for AI-driven responses, this app simulates real-world interview scenarios, providing users with a comprehensive and interactive mock interview experience.
 
 ![app screen 1](./Interview-1.png)
-![app screen 2](./Interview-2.png)
+![app screen 2](./Interview-2.png) 
 
 ## Getting Started
 
