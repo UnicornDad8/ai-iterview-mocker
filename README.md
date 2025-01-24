@@ -51,3 +51,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ## Live Demo
 [live demo](https://ai-iterview-mocker.vercel.app/)
 
+## License
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
+
