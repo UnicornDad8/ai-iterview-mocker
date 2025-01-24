@@ -15,7 +15,7 @@ import { UserAnswer } from '@/utils/schema';
 
 const RecordAnswerSection = ({ mockInterviewQuestion, activeQuestionIndex, interviewData }) => {
   const [userAnswer, setUserAnswer] = useState("");
-  const [interviewStarted, setInterviewStarted] = useState(false);
+  const [interviewStarted, setInterviewStarted] = useState(true);
   const [loading, setLoading] = useState(false);
   const { user } = useUser();
 
@@ -36,7 +36,6 @@ const RecordAnswerSection = ({ mockInterviewQuestion, activeQuestionIndex, inter
     results.map((result) => (
       setUserAnswer(prevAns => prevAns + result?.transcript)
     ));
-    setInterviewStarted(true);
   }, [results]);
 
   useEffect(() => {
