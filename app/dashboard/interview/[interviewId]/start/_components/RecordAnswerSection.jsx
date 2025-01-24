@@ -15,6 +15,7 @@ import { UserAnswer } from '@/utils/schema';
 
 const RecordAnswerSection = ({ mockInterviewQuestion, activeQuestionIndex, interviewData }) => {
   const [userAnswer, setUserAnswer] = useState("");
+  const [interviewStarted, setInterviewStarted] = useState(false);
   const [loading, setLoading] = useState(false);
   const { user } = useUser();
 
@@ -35,6 +36,7 @@ const RecordAnswerSection = ({ mockInterviewQuestion, activeQuestionIndex, inter
     results.map((result) => (
       setUserAnswer(prevAns => prevAns + result?.transcript)
     ));
+    setInterviewStarted(true);
   }, [results]);
 
   useEffect(() => {
@@ -110,16 +112,19 @@ const RecordAnswerSection = ({ mockInterviewQuestion, activeQuestionIndex, inter
 
   return (
     <div className="flex flex-col items-center justify-center">
-        <div className="flex flex-col items-center justify-center w-full rounded-lg">
-          <div className="w-full p-5 mt-10">
+        <div className="flex flex-col items-center justify-center w-full">
+          {interviewStarted ?
+           <div id="video-stream">
+           <Webcam 
+             mirrored={true}
+             className="rounded-lg"
+           />
+           </div>
+           :
+          <div className="flex flex-col items-center w-full p-5 bg-secondary h-[240px] rounded-lg">
             <Image src={"/webcam.png"} alt="webcam" width={200} height={200} className="absolute" />
           </div>
-          <div id="video-stream">
-          <Webcam 
-            mirrored={true}
-            className="-mt-20 rounded-lg"
-          />
-          </div>
+          }
     </div>
     <Button
       disabled={loading} 
