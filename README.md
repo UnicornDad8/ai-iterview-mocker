@@ -49,5 +49,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - react-webcam
 
 ## Live Demo
-[live demo](./vercel)
+[live demo](https://ai-iterview-mocker.vercel.app/)
 
