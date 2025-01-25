@@ -49,8 +49,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - react-webcam
 
 ## Live Demo
-[live demo](https://ai-iterview-mocker.vercel.app/)
-[video demo](https://www.youtube.com/watch?v=VlzZRd5lEu4&ab_channel=C%C3%B3digoSimple)
+- [live demo](https://ai-iterview-mocker.vercel.app/)
+- [video demo](https://www.youtube.com/watch?v=VlzZRd5lEu4&ab_channel=C%C3%B3digoSimple)
 
 ## License
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
